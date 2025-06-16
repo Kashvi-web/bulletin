@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solid State Physics Lab Bulletin Board</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Georgia", serif;
+      background: #fff;
+    }
+
+   header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #e0e0e0;
+  padding: 5px 10px;
+  position: relative;
+}
+
+header a.btn,
+header .btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #b0d4d4;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-family: Verdana, sans-serif;
+}
+
+.datetime {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  font-family: Verdana, sans-serif;
+  color: #333;
+}
+
+
+    .btn {
+      background-color: #91c4d0;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-decoration: none;
+      color: black;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px; 
+      font-family: Verdana, Geneva, Tahoma, sans-serif; 
+      font-weight: bold;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      background-color: #7fb4c0;
+    }
+
+    .title-section {
+      background-color: #91c4d0;
+      text-align: center;
+      padding: 10px;
+      box-shadow: 2px 2px 5px #aaa;
+    }
+
+    .title-logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .logo-img {
+      width: 70px;
+      height: auto;
+    }
+
+    .title-text {
+      max-width: 600px;
+    }
+
+    .title-text h1 {
+      margin: 0;
+      font-size: 25px;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px #333;
+    }
+
+    .title-text p {
+      margin: 5px 0 0 0;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .forum-container {
+      margin: 20px auto;
+      width: 90%;
+      max-width: 800px;
+      border: 1px solid #333;
+      border-radius: 20px;
+      background-color: #2b2b2b;
+      overflow: hidden;
+    }
+
+    .forum-header {
+      background-color: #2b2b2b;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 18px;
+    }
+
+    .forum-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .forum-table tr {
+      background-color: #d3d3d3;
+      border-bottom: 1px solid #aaa;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .forum-table tr:hover {
+      transform: scale(1.015);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      position: relative;
+    }
+
+    .forum-table td {
+      padding: 11px;
+      font-size: 15px;
+    }
+
+    .forum-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .forum-icon {
+      width: 25px;
+      height: 25px;
+    }
+
+    .forum-text {
+      font-family: 'Georgia', serif; 
+      font-size: 14px; 
+      line-height: 1.3;
+    }
+
+    .forum-link {
+      color: black;
+      text-decoration: none;
+    }
+
+    .forum-link:hover {
+      text-decoration: underline;
+    }
+
+    /* LOGIN MODAL STYLES */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #f9f9f9;
+      padding: 25px;
+      border-radius: 20px;
+      width: 300px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+      text-align: center;
+      animation: slideDown 0.4s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-content input {
+      width: 90%;
+      margin: 10px 0;
+      padding: 8px;
+      border-radius: 10px;
+      border: 1px solid #999;
+      font-family: Verdana;
+    }
+
+    .modal-content button {
+      background-color: #91c4d0;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: Verdana;
+    }
+
+    .modal-content button:hover {
+      background-color: #7fb4c0;
+    }
+
+    .modal-content.admin-board {
+  width: 600px;
+  padding: 30px 30px 40px;
+  font-family: 'Georgia', serif;
+  background-color: #e6e6e6;
+  border: 2px solid #aaa;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.admin-heading {
+  font-size: 28px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px #444;
+  margin-bottom: 25px;
+}
+
+.admin-section {
+  
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: nowrap;
+  margin-bottom: 20px;
+}
+
+.admin-label {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.admin-select {
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #777;
+  background-color: white;
+}
+
+.submit-btn {
+  background-color: #91c4d0;
+  color: black;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #7fb4c0;
+  transform: scale(1.05);
+}
+    .error {
+      color: red;
+      font-size: 13px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .back-link {
+      margin-top: 15px;
+      display: block;
+      font-size: 13px;
+      color: #333;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="btn" href="#"><img src="/icons/home.png" style="width: 25px; height: 25px;"> BOARD INDEX</a>
+   <div id="datetime" class="datetime"></div>
+  <div class="btn" id="openLogin"><span>LOGIN</span> <img src="/icons/login.png" style="width: 25px; height: 25px;"></div>
+</header>
+
+<div class="title-section">
+  <div class="title-logo-container">
+    <img src="icons/sspllogo.png" alt="SSPL Logo" class="logo-img" />
+    <div class="title-text">
+      <h1>Solid State Physics Laboratory Bulletin Board</h1>
+      <p>Lucknow Road, Timarpur Delhi - 110054</p>
+    </div>
+    <img src="icons/sspllogo.png" alt="SSPL Logo" class="logo-img" />
+  </div>
+</div>
+
+<div class="forum-container">
+  <div class="forum-header">FORUM</div>
+  <table class="forum-table">
+    <tr>
+      <td>
+        <div class="forum-item">
+          <img src="/icons/files.png" alt="icon" class="forum-icon">
+          <div class="forum-text">
+            <strong><a href="#" class="forum-link">प्रशासन/Admin</a></strong><br>
+            Topic:
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="forum-item">
+          <img src="/icons/files.png" alt="icon" class="forum-icon">
+          <div class="forum-text">
+            <strong><a href="#" class="forum-link">सीजीएचएस / CGHS</a></strong><br>
+            Topics:
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="forum-item">
+          <img src="/icons/files.png" alt="icon" class="forum-icon">
+          <div class="forum-text">
+            <strong><a href="#" class="forum-link">सीएसडी कैंटीन / CSD Canteen</a></strong><br>
+            Topics:
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="forum-item">
+          <img src="/icons/files.png" alt="icon" class="forum-icon">
+          <div class="forum-text">
+            <strong><a href="#" class="forum-link">वित्त / Finance</a></strong><br>
+            Topics:
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="forum-item">
+          <img src="/icons/files.png" alt="icon" class="forum-icon">
+          <div class="forum-text">
+            <strong><a href="#" class="forum-link">एचआरडी / HRD</a></strong><br>
+            Topics:
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="forum-item">
+          <img src="/icons/files.png" alt="icon" class="forum-icon">
+          <div class="forum-text">
+            <strong><a href="#" class="forum-link">सूचना प्रौद्योगिकी समूह / Information Technology Group</a></strong><br>
+            Topics:
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="forum-item">
+          <img src="/icons/files.png" alt="icon" class="forum-icon">
+          <div class="forum-text">
+            <strong><a href="#" class="forum-link">ठोस अवस्था भौतिकी प्रयोगशाला / Solid State Physics Laboratory</a></strong><br>
+            Topics:
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="forum-item">
+          <img src="/icons/files.png" alt="icon" class="forum-icon">
+          <div class="forum-text">
+            <strong><a href="#" class="forum-link">खेल / Sports</a></strong><br>
+            Topics:
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="forum-item">
+          <img src="/icons/files.png" alt="icon" class="forum-icon">
+          <div class="forum-text">
+            <strong><a href="#" class="forum-link">तकनीकी सचिवालय / Technical Secretariat</a></strong><br>
+            Topics:
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!-- LOGIN POPUP -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <h3>Login</h3>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="checkLogin()">Login</button>
+    <div class="error" id="errorMsg">Invalid credentials. Try again.</div>
+    <span class="back-link" onclick="closeLogin()">← Back to Home</span>
+  </div>
+</div>
+
+<!-- Admin Modal -->
+<div class="modal" id="adminModal">
+  <div class="modal-content admin-board">
+    <button class="close" onclick="closeAdminModal()">&times;</button>
+    <h2 class="admin-heading">Welcome to the Admin Board</h2>
+    <div class="admin-section">
+      <p class="admin-label">Select which section you want to edit:</p>
+      <select id="sectionSelect" class="admin-select">
+        <option value="admin.html">प्रशासन / Admin</option>
+        <option value="cghs.html">सीजीएचएस / CGHS</option>
+        <option value="csd.html">सीएसडी कैंटीन / CSD Canteen</option>
+        <option value="finance.html">वित्त / Finance</option>
+        <option value="hrd.html">एचआरडी / HRD</option>
+        <option value="itg.html">सूचना प्रौद्योगिकी समूह / IT Group</option>
+        <option value="sspl.html">ठोस अवस्था भौतिकी प्रयोगशाला / SSPL</option>
+        <option value="sports.html">खेल / Sports</option>
+        <option value="tech.html">तकनीकी सचिवालय / Technical Secretariat</option>
+      </select>
+    </div>
+    <button onclick="goToSection()" class="submit-btn">Submit</button>
+  </div>
+</div>
+
+
+<script>
+  const loginModal = document.getElementById("loginModal");
+  const openLogin = document.getElementById("openLogin");
+  const errorMsg = document.getElementById("errorMsg");
+  const adminModal = document.getElementById("adminModal");
+
+
+  openLogin.onclick = () => {
+    loginModal.style.display = "flex";
+    errorMsg.style.display = "none";
+  };
+
+  function checkLogin() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    if (username === "admin" && password === "admin") {
+      loginModal.style.display = "none";
+      adminModal.style.display = "flex";
+    } else {
+      errorMsg.style.display = "block";
+    }
+  }
+  function closeLogin() {
+    loginModal.style.display = "none";
+  }
+
+function closeAdminModal() {
+    adminModal.style.display = "none";
+  }
+  function goToSection() {
+    const selected = document.getElementById("sectionSelect").value;
+    window.location.href = `${selected}.html`;
+  }
+
+  function updateDateTime() {
+    const now = new Date();
+    const options = {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    };
+    document.getElementById("datetime").textContent = now.toLocaleString('en-IN', options);
+  }
+
+  setInterval(updateDateTime, 1000); // Refresh every second
+  updateDateTime(); // Initial call
+</script>
+
+</body>
+</html>
